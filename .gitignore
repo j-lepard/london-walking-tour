@@ -1,0 +1,5 @@
+Recordings_original/
+recording_versions/
+**/*.wav
+__pycache__/
+*.pyc
