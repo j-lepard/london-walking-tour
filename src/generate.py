@@ -88,6 +88,13 @@ stops = {
 for filename, text in stops.items():
     print(f"Generating: {filename}...")
     wav_tensor = generate_stop(text)
-    torchaudio.save(f"output/{filename}.wav", wav_tensor, model.sr)
+    wav_path = f"output/{filename}.wav"
+    mp3_path = f"output/{filename}.mp3"
+    torchaudio.save(wav_path, wav_tensor, model.sr)
+    subprocess.run(
+        ["ffmpeg", "-y", "-i", wav_path, "-codec:audio", "libmp3lame", "-b:a", "192k", mp3_path],
+        capture_output=True, check=True
+    )
+    os.remove(wav_path)
 
 print("Done! Check the output/ folder.")
